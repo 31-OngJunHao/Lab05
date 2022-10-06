@@ -284,11 +284,12 @@ namespace UnityStandardAssets.Characters.FirstPerson
         {
             if (collision.gameObject.tag == "Coin")
             {
-                
-                CoinCount = CoinCount + 10;
-                Destroy(collision.gameObject);
+                collision.gameObject.GetComponent<ParticleSystem>().Play();
+                CoinCount += 10;
+                Destroy(collision.gameObject,1);
                 coinsremain--;
                 CoinCounter.text = "Coins Collected: " + CoinCount;
+
             }
         }
         private void OnTriggerEnter(Collider other)
