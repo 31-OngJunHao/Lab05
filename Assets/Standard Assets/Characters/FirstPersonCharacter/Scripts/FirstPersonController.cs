@@ -47,6 +47,10 @@ namespace UnityStandardAssets.Characters.FirstPerson
         //New Add
         private int CoinCount;
         public Text CoinCounter;
+        private int coinsremain = 6;
+
+        public Text Timer;
+        private float TimeLeft = 20f;
 
         // Use this for initialization
         private void Start()
@@ -61,12 +65,27 @@ namespace UnityStandardAssets.Characters.FirstPerson
             m_Jumping = false;
             m_AudioSource = GetComponent<AudioSource>();
 			m_MouseLook.Init(transform , m_Camera.transform);
+            CoinCount = 0;
         }
 
 
         // Update is called once per frame
         private void Update()
         {
+            //Timer
+            TimeLeft -= Time.deltaTime;
+            Timer.text = "Time Left: " + TimeLeft.ToString("0.00");
+            if(TimeLeft <= 0 && coinsremain > 0)
+            {
+                SceneManager.LoadScene("GameLose");
+
+            }
+            else if(coinsremain == 0 && TimeLeft > 0)
+            {
+                SceneManager.LoadScene("GameWin");
+            }
+
+
             RotateView();
             // the jump state needs to read here to make sure it is not missed
             if (!m_Jump)
@@ -266,8 +285,9 @@ namespace UnityStandardAssets.Characters.FirstPerson
             if (collision.gameObject.tag == "Coin")
             {
                 
-                CoinCount++;
+                CoinCount = CoinCount + 10;
                 Destroy(collision.gameObject);
+                coinsremain--;
                 CoinCounter.text = "Coins Collected: " + CoinCount;
             }
         }
