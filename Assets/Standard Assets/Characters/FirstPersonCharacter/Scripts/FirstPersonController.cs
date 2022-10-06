@@ -263,8 +263,6 @@ namespace UnityStandardAssets.Characters.FirstPerson
         }
         private void OnCollisionEnter(Collision collision)
         {
-            print("1");
-
             if (collision.gameObject.tag == "Coin")
             {
                 
@@ -272,7 +270,10 @@ namespace UnityStandardAssets.Characters.FirstPerson
                 Destroy(collision.gameObject);
                 CoinCounter.text = "Coins Collected: " + CoinCount;
             }
-            else if(collision.gameObject.tag == "Water")
+        }
+        private void OnTriggerEnter(Collider other)
+        {
+            if(other.gameObject.tag == "Water")
             {
                 SceneManager.LoadScene("GameLose");
             }
